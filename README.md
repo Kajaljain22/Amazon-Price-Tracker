@@ -1,4 +1,8 @@
 # Amazon-Price-Tracker
-Python app to track Amazon prices of any product
+A Python application that can be used to track the prices of any Amazon product on a daily basis. It informs the user in case of fallen prices by sending an email regarding the same. The user can set a limit on the price for the chosen product.
 
 Open scraper.py and run the file
+
+***Like it? [Star this repo](https://github.com/Kajaljain22/Amazon-Price-Tracker/) :star:***
+
+[![LinkedIn](https://img.shields.io/static/v1.svg?label=connect&message=@kajal-jain&color=bfefff&logo=linkedin&style=flat&logoColor=white&colorA=blue)](https://www.linkedin.com/in/kajal-jain/) 
