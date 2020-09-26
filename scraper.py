@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import smtplib    #Simple Mail Transfer Protocol Library (for sending mails)
 import time       #for setting delays in a while(True) loop
+from passw import *
 
 URL = ""
 name = ""
@@ -47,14 +48,14 @@ def send_mail():
     server.starttls() #for encryption
     server.ehlo()
 
-    server.login('kajalj256@gmail.com', 'pggwdzcqotaxwuvv')
+    server.login(mail,pw)
 
     subject ="Price of " + name + " fell down!"
     body = "Check the amazon link :: " + URL
     msg =f"Subject: {subject}\n\n{body}"
 
     server.sendmail(
-         'kajalj256@gmail.com',
+         mail,
          email_id,
          msg
     )
