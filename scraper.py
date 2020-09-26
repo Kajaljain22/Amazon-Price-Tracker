@@ -4,8 +4,10 @@ from bs4 import BeautifulSoup
 import smtplib    #Simple Mail Transfer Protocol Library (for sending mails)
 import time       #for setting delays in a while(True) loop
 
-URL = 'https://www.amazon.in/Amazon-FireTVStick-Alexa-Voice-Remote-Streaming-Player/dp/B0791YHVMK/ref=sr_1_1?crid=17203M5F873P3&dchild=1&keywords=amazon+fire+stick+tv&qid=1589970278&sprefix=amazon+fire%2Caps%2C491&sr=8-1'
-
+URL = ""
+name = ""
+email_id = ""
+budget = 2500
 headers = {"User-Agent" : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.116 Safari/537.36'}
 # got headers value by searching "my user agent" on google
 
@@ -20,10 +22,9 @@ def convert(s):
     return float(intPrice)
 
 
-
 def check_price():
-    page = requests.get(URL, headers = headers)
 
+    page = requests.get(URL, headers = headers)
     soup1 = BeautifulSoup(page.content, 'html.parser')
     soup2 = BeautifulSoup(soup1.prettify(), 'html.parser')
 
@@ -37,7 +38,7 @@ def check_price():
     converted_price = convert(price)
     # print(converted_price)
 
-    if(converted_price <= 2500.0):
+    if(converted_price <= budget):
         send_mail()
 
 def send_mail():
@@ -45,18 +46,16 @@ def send_mail():
     server.ehlo() #builds connection b/w 2 mail servers
     server.starttls() #for encryption
     server.ehlo()
-     
+
     server.login('kajalj256@gmail.com', 'pggwdzcqotaxwuvv')
 
-    subject ="Price of Amazon Fire TV Stick fell down!"
-
-    body = "Check the amazon link :: https://www.amazon.in/Amazon-FireTVStick-Alexa-Voice-Remote-Streaming-Player/dp/B0791YHVMK/ref=sr_1_1?crid=17203M5F873P3&dchild=1&keywords=amazon+fire+stick+tv&qid=1589970278&sprefix=amazon+fire%2Caps%2C491&sr=8-1"
-
+    subject ="Price of " + name + " fell down!"
+    body = "Check the amazon link :: " + URL
     msg =f"Subject: {subject}\n\n{body}"
 
     server.sendmail(
          'kajalj256@gmail.com',
-         'usha.jain03@gmail.com',
+         email_id,
          msg
     )
 
@@ -65,8 +64,10 @@ def send_mail():
     server.quit()
      
 
-check_price()
-
-# while(True):
-#     check_price()
-#     time.sleep(24*3600) #to check once a day
+while(True):
+    name = input("Enter name of your product ")
+    URL = input("Enter the amazon link of the product you want to track! ")
+    budget = int(input("What's your budget? "))
+    email_id = input("Enter your email :: ")
+    check_price()
+    time.sleep(24*3600) #to check once a day
