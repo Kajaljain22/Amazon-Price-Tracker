@@ -33,10 +33,17 @@ def check_price():
     #due to the fact that amazon keeps changing its js part, this line sometimes will give none keep running the program 3-4 times, it wil work
     print(title.strip())
 
-    price = soup2.find(id="priceblock_ourprice").get_text()          #price is string 
-    #print(price)
-
-    converted_price = convert(price)
+    price = soup2.find(id="priceblock_ourprice")   
+    if(price == None):
+        price = soup2.find(id="priceblock_dealprice")     
+    # print(price)
+    if(price == None):
+        print("Check ID")
+        return
+    price = price.get_text()          
+    # print(price)
+    
+    converted_price = convert(price)            #price is string 
     # print(converted_price)
 
     if(converted_price <= budget):
