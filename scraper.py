@@ -13,7 +13,7 @@ headers = {"User-Agent" : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) Apple
 # got headers value by searching "my user agent" on google
 
 def convert(s):
-    intPrice=""
+    intPrice = ""
     for i in s:
         if i.isdigit():
             intPrice+=i
@@ -25,6 +25,8 @@ def convert(s):
 
 def check_price():
 
+    if(URL == ""):
+        return
     page = requests.get(URL, headers = headers)
     soup1 = BeautifulSoup(page.content, 'html.parser')
     soup2 = BeautifulSoup(soup1.prettify(), 'html.parser')
@@ -36,20 +38,24 @@ def check_price():
     price = soup2.find(id="priceblock_ourprice")   
     if(price == None):
         price = soup2.find(id="priceblock_dealprice")     
-    # print(price)
     if(price == None):
-        print("Check ID")
+        price = soup2.find(id="priceblock_saleprice")
+    if(price == None):
+        print("Check ID for price")
         return
+    # print(price)                              #price -> entire span division
     price = price.get_text()          
-    # print(price)
+    # print(price)                                #price = price value 
     
-    converted_price = convert(price)            #price is string 
+    converted_price = convert(price)            #converting price from string to int
     # print(converted_price)
 
     if(converted_price <= budget):
         send_mail()
 
 def send_mail():
+    if(email_id == ""):
+        return
     server = smtplib.SMTP('smtp.gmail.com', 587  )
     server.ehlo() #builds connection b/w 2 mail servers
     server.starttls() #for encryption
